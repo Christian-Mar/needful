@@ -44,7 +44,6 @@ needful/            Python-package
   ui/               NiceGUI-schermen + PWA (manifest, service worker)
 tests/              pytest
 docs/concept/       pitch & voorontwerp (pdf)
-scripts/            hulpscripts (seed data, …)
 ```
 
 ## Lokaal draaien
