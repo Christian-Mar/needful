@@ -1,0 +1,39 @@
+[project]
+name = "needful"
+version = "0.1.0"
+description = "Koop minder. Kies beter. Een beslissingshulp vóór je iets koopt."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "nicegui",
+    "pydantic",
+    "pydantic-settings",
+    "sqlmodel",
+    "alembic",
+    "psycopg[binary]",
+    "httpx",
+    "beautifulsoup4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["needful*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
