@@ -6,4 +6,4 @@
 4. Open een pull request naar `main`; minstens één van de anderen reviewt.
 5. We mergen niets wat niemand van ons begrijpt.
 
-Voor je pusht: `ruff check . && pytest`
+Voor je pusht: `uv run ruff check . && uv run pytest`

@@ -19,7 +19,7 @@ Antwoorden kan typend of met je stem. Geen login, geen persoonsgegevens.
 
 ## Stack
 
-- **Python 3.12** (nog te bevestigen)
+- **Python 3.12** via uv
 - **NiceGUI** – frontend (desktop web + PWA voor Android/iPhone), draait op FastAPI
 - **FastAPI + Pydantic** – API
 - **SQLModel / SQLAlchemy 2 + Alembic** – database-laag
@@ -49,17 +49,37 @@ scripts/            hulpscripts (seed data, …)
 
 ## Lokaal draaien
 
+We gebruiken [uv](https://docs.astral.sh/uv/) voor Python en packages (eenmalig installeren):
+
+```powershell
+# Windows (PowerShell), daarna terminal opnieuw openen
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
 ```bash
-# 1. kopieer .env.example naar .env en vul je API-key in
-cp .env.example .env
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-# 2. start database + app
-docker compose up --build
+Dan in de projectmap:
 
-# of zonder Docker:
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -e ".[dev]"
-uvicorn needful.main:app --reload
+```bash
+cp .env.example .env            # Windows: copy .env.example .env
+uv python install 3.12
+uv sync --extra dev             # maakt .venv en installeert alles
+uv run pytest                   # tests
+uv run uvicorn needful.main:app --reload --port 8080
+```
+
+`uv run` gebruikt automatisch de .venv, je hoeft niets te activeren. Commit `uv.lock` mee zodat iedereen dezelfde versies heeft.
+
+### Met Docker
+
+Installeer [Docker Desktop](https://www.docker.com/products/docker-desktop/) en start het.
+
+```bash
+docker compose up --build       # Postgres + app samen (Ctrl+C om te stoppen)
+docker compose up -d db         # alleen de database, app lokaal via uv run
+docker compose down             # alles stoppen
 ```
 
 App: http://localhost:8080 · API-docs: http://localhost:8080/docs
@@ -67,7 +87,7 @@ App: http://localhost:8080 · API-docs: http://localhost:8080/docs
 ## Tests
 
 ```bash
-pytest
+uv run pytest
 ```
 
 ## Werkwijze
